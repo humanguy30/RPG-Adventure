@@ -1,0 +1,119 @@
+Public Class frmGoblinEncounter
+    'WEAPON SELECTIONS
+    Private Sub radSword_CheckedChanged(sender As Object, e As EventArgs) Handles radSword.CheckedChanged
+
+        txtDamage.Text = "3 - 10"
+        txtAccuracy.Text = "80%"
+
+    End Sub
+
+    Private Sub radDagger_CheckedChanged(sender As Object, e As EventArgs) Handles radDagger.CheckedChanged
+
+        txtDamage.Text = "5 - 7"
+        txtAccuracy.Text = "95%"
+
+    End Sub
+
+    Private Sub radBattleAxe_CheckedChanged(sender As Object, e As EventArgs) Handles radBattleAxe.CheckedChanged
+
+        txtDamage.Text = "5 - 15"
+        txtAccuracy.Text = "65%"
+    End Sub
+
+    'Incomplete.  Must figure out how to close frmAdventure from this Method.
+    Private Sub btnAttack_Click(sender As Object, e As EventArgs) Handles btnAttack.Click
+        Dim YourDamage, GoblinDamage, YourHealth, GoblinHealth, GoblinAccuracy, YourAccuracy As Integer
+
+        YourHealth = CInt(lblYourHealth.Text)
+        GoblinHealth = CInt(lblGoblinHealth.Text)
+
+        If radDagger.Checked = False And radSword.Checked = False And radBattleAxe.Checked = False Then
+            MessageBox.Show("It's Dangerous to Go Alone!", "Take This!")
+        Else
+            If YourHealth <= 0 Then
+                MessageBox.Show("You've Died, Fair Hero!", "Goodbye")
+                Close()
+                'Figure out how to close frmAdventure and place here
+            ElseIf GoblinHealth <= 0 Then
+                MessageBox.Show("You've Slain the Foul Beast!", "Well Done!")
+                Close()
+            Else
+
+                Randomize()
+                YourAccuracy = CInt(Math.Floor((100) * Rnd())) + 1
+
+                If radDagger.Checked Then
+                    If YourAccuracy <= 5 Then
+                        YourDamage = 0
+                        lblYourMiss.Text = "Miss!"
+                    ElseIf YourAccuracy = 100 Then
+                        Randomize()
+                        YourDamage = CInt(Math.Floor((21 - 15 + 1) * Rnd())) + 15
+                        lblYourMiss.Text = "Crit!"
+                    Else
+                        Randomize()
+                        YourDamage = CInt(Math.Floor((7 - 5 + 1) * Rnd())) + 5
+                        lblYourMiss.Text = "Hit!"
+                    End If
+
+                ElseIf radSword.Checked Then
+                    If YourAccuracy <= 20 Then
+                        YourDamage = 0
+                        lblYourMiss.Text = "Miss!"
+                    ElseIf YourAccuracy = 100 Then
+                        Randomize()
+                        YourDamage = CInt(Math.Floor((30 - 9 + 1) * Rnd())) + 9
+                        lblYourMiss.Text = "Crit!"
+                    Else
+                        Randomize()
+                        YourDamage = CInt(Math.Floor((10 - 3 + 1) * Rnd())) + 3
+                        lblYourMiss.Text = "Hit!"
+                    End If
+
+                ElseIf radBattleAxe.Checked Then
+                    If YourAccuracy <= 35 Then
+                        YourDamage = 0
+                        lblYourMiss.Text = "Miss!"
+                    ElseIf YourAccuracy = 100 Then
+                        Randomize()
+                        YourDamage = CInt(Math.Floor((45 - 15 + 1) * Rnd())) + 15
+                        lblYourMiss.Text = "Crit!"
+                    Else
+                        Randomize()
+                        YourDamage = CInt(Math.Floor((15 - 5 + 1) * Rnd())) + 5
+                        lblYourMiss.Text = "Hit!"
+                    End If
+
+                End If
+                Randomize()
+                GoblinAccuracy = CInt(Math.Floor((100) * Rnd())) + 1
+
+                If GoblinAccuracy <= 20 Then
+                    GoblinDamage = 0
+                    lblGoblinMiss.Text = "Miss!"
+                ElseIf GoblinAccuracy = 100 Then
+                    Randomize()
+                    GoblinDamage = CInt(Math.Floor((30 - 9 + 1) * Rnd())) + 9
+                    lblGoblinMiss.Text = "Crit!"
+                Else
+                    Randomize()
+                    GoblinDamage = CInt(Math.Floor((10 - 3 + 1) * Rnd())) + 3
+                    lblGoblinMiss.Text = "Hit!"
+                End If
+
+                lblYourDamage.Text = CStr(YourDamage)
+                lblGoblinDamage.Text = CStr(GoblinDamage)
+
+                YourHealth -= GoblinDamage
+                GoblinHealth -= YourDamage
+
+                lblGoblinHealth.Text = CStr(GoblinHealth)
+                lblYourHealth.Text = CStr(YourHealth)
+
+            End If
+
+        End If
+
+    End Sub
+
+End Class
