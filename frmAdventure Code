@@ -1,0 +1,99 @@
+Public Class frmAdventure
+    Dim NorthSouth, EastWest As Integer
+
+    'FORM LOAD
+    Private Sub frmAdventure_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        NorthSouth = 0
+        EastWest = 0
+        lblPosition.Text = NorthSouth & "," & EastWest
+
+        lblRoom.Text = "You find yourself in a bright clearing." & vbCrLf & "There are exits to the North, South, East, and West."
+    End Sub
+
+    'POSITION CHANGES - Incomplete.  Finish Design in Excel and code coordinates.  Code Random Encounters.
+    Private Sub lblPosition_Click(sender As Object, e As EventArgs) Handles lblPosition.TextChanged
+        Dim EncounterChance As Integer
+
+        If NorthSouth = 0 And EastWest = 0 Then
+            lblRoom.Text = "You find yourself in a bright clearing." & vbCrLf & "There are exits to the North, South, East, and West."
+            Randomize()
+            EncounterChance = CInt(Math.Floor((100) * Rnd())) + 1
+            If EncounterChance <= 50 Then
+                frmGoblinEncounter.Show()
+            End If
+            btnEast.Visible = True
+            btnNorth.Visible = True
+            btnWest.Visible = True
+            btnSouth.Visible = True
+
+        ElseIf NorthSouth = 1 And EastWest = 0
+            lblRoom.Text = "You come to a large tree.  The only exit is to the South."
+            If EncounterChance <= 50 Then
+                frmGoblinEncounter.Show()
+            End If
+            btnEast.Visible = False
+            btnNorth.Visible = False
+            btnWest.Visible = False
+            btnSouth.Visible = True
+
+        ElseIf NorthSouth = -1 And EastWest = 0
+            lblRoom.Text = "You come to a road that goes East and West. " & vbCrLf & " To the West, You see a small village.  There are exits to the " & vbCrLf & "North, East, West."
+            If EncounterChance <= 10 Then
+                frmGoblinEncounter.Show()
+            End If
+            btnEast.Visible = True
+            btnNorth.Visible = True
+            btnWest.Visible = True
+            btnSouth.Visible = False
+
+        ElseIf NorthSouth = -1 And EastWest = -1
+            lblRoom.Text = "You come to a small village.  Most of the doors " & vbCrLf & "and windows are boarded up.  The village is abandoned.  " & vbCrLf & "There are exits to the West and East."
+            If EncounterChance <= 25 Then
+                frmGoblinEncounter.Show()
+            End If
+            btnEast.Visible = True
+            btnNorth.Visible = False
+            btnWest.Visible = True
+            btnSouth.Visible = False
+
+        End If
+
+    End Sub
+
+    'SOUTH BUTTON
+    Private Sub btnSouth_Click(sender As Object, e As EventArgs) Handles btnSouth.Click
+        Dim EncounterChance As Integer
+
+        NorthSouth -= 1
+        lblPosition.Text = NorthSouth & "," & EastWest
+
+    End Sub
+
+    'EAST BUTTON
+    Private Sub btnEast_Click(sender As Object, e As EventArgs) Handles btnEast.Click
+        Dim EncounterChance As Integer
+
+        EastWest += 1
+        lblPosition.Text = NorthSouth & "," & EastWest
+
+    End Sub
+
+    'WEST BUTTON
+    Private Sub btnWest_Click(sender As Object, e As EventArgs) Handles btnWest.Click
+        Dim EncounterChance As Integer
+
+        EastWest -= 1
+        lblPosition.Text = NorthSouth & "," & EastWest
+
+    End Sub
+
+    'NORTH BUTTON
+    Private Sub btnNorth_Click(sender As Object, e As EventArgs) Handles btnNorth.Click
+        Dim EncounterChance As Integer
+
+        NorthSouth += 1
+        lblPosition.Text = NorthSouth & "," & EastWest
+
+    End Sub
+
+End Class
